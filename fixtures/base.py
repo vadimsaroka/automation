@@ -25,7 +25,6 @@ class BaseTestCase(unittest.TestCase):
 
     # @classmethod
     # def tearDownClass(cls):
-    #     print("TearDown")
     #     # yield
     #     # self.driver.close()
     #     cls.driver.quit()

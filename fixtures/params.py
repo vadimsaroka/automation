@@ -19,7 +19,8 @@ CHROME_EXECUTABLE_PATH = Chrome(options=options)
 
 #The FireFox driver setup
 # FIREFOX_EXECUTABLE_PATH = os.path.join(cwd, "driver/geckodriver")\
-FIREFOX_EXECUTABLE_PATH = Firefox()
+# FIREFOX_EXECUTABLE_PATH = Firefox()
+FIREFOX_EXECUTABLE_PATH = None
 
 
 BROWSER_TYPE = "Chrome"
