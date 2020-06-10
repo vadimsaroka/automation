@@ -29,6 +29,13 @@ class BaseTestCase(unittest.TestCase):
     #     # self.driver.close()
     #     cls.driver.quit()
 
+    def alert_handling(self, text):
+        sleep(2)
+        alert = self.driver.switch_to.alert
+        alert_text = alert.text
+        self.assertEqual(alert_text, text)
+        alert.accept()
+
     def go_to_page(self):
         sleep(2)
         self.driver.get(self.page_url)

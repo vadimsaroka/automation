@@ -5,8 +5,6 @@ from tests.test_3_create_review import CreateReviewTest
 from tests.test_4_delete_review import DeleteReviewTest
 from tests.test_5_delete_account import DeleteAccountTest
 
-import tests
-
 sing_up = unittest.TestLoader().loadTestsFromTestCase(SignUpTest)
 login = unittest.TestLoader().loadTestsFromTestCase(LoginTest)
 create = unittest.TestLoader().loadTestsFromTestCase(CreateReviewTest)

@@ -8,7 +8,6 @@ class DeleteReviewTest(DeleteReview):
         super(DeleteReviewTest, self).setUp()
         self.page_url = DOMAIN + "/reviews"
         self.login = LoginPage(self.driver)
-        # self.login.go_to_page()
         self.login.login()
 
     def test_delete_review(self):

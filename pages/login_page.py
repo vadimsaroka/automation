@@ -22,10 +22,9 @@ class LoginPage:
         WebDriverWait(self.driver, timeout=EXPLICIT_TIMEOUT).until((ec.element_to_be_clickable(
             (By.XPATH, "//*[text()[contains(.,'Log out')]]")))).click()
         WebDriverWait(self.driver, timeout=EXPLICIT_TIMEOUT).until(ec.url_to_be(DOMAIN + "/"))
-
-    def get_page(self):
-        self.driver.get(DOMAIN + "/login")
-        WebDriverWait(self.driver, timeout=EXPLICIT_TIMEOUT).until(ec.url_to_be(DOMAIN + "/login"))
+        # self.wait.until((ec.element_to_be_clickable(
+        #     (By.XPATH, "//*[text()[contains(.,'Log out')]]")))).click()
+        # self.wait.until(ec.url_to_be(DOMAIN + "/"))
 
     def set_user_name(self, username=DEFAULT_EMAIL):
         self.driver.find_element_by_id("email").send_keys(username)
