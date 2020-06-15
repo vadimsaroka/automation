@@ -1,9 +1,9 @@
 import unittest
-from tests.test_1_sing_up import SignUpTest
-from tests.test_2_login import LoginTest
-from tests.test_3_create_review import CreateReviewTest
-from tests.test_4_delete_review import DeleteReviewTest
-from tests.test_5_delete_account import DeleteAccountTest
+from tests.sing_up_test import SignUpTest
+from tests.login_test import LoginTest
+from tests.create_review_test import CreateReviewTest
+from tests.delete_review_test import DeleteReviewTest
+from tests.delete_account_test import DeleteAccountTest
 
 sing_up = unittest.TestLoader().loadTestsFromTestCase(SignUpTest)
 login = unittest.TestLoader().loadTestsFromTestCase(LoginTest)

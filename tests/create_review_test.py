@@ -4,7 +4,6 @@ from time import sleep
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.wait import WebDriverWait
 from pages.delete_account_page import DeleteAccount
-from pages.login_page import LoginPage
 from pages.create_review_page import CreateReview
 from fixtures.params import PRODUCT_NAME, DOMAIN, EXPLICIT_TIMEOUT
 from pages.sing_up_page import SignUpPage
@@ -15,9 +14,7 @@ class CreateReviewTest(SignUpPage, DeleteAccount, CreateReview):
         # create an account in order to be able to login
         self.signup()
         self.wait.until(ec.url_to_be(DOMAIN + "/me"))
-        # self.login = LoginPage(self.driver)
         self.page_url = DOMAIN + "/newreview"
-        # self.login.login()
 
     def tearDown(self):
         # clean up after test

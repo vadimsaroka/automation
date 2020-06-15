@@ -1,8 +1,17 @@
 from fixtures.base import BaseTestCase
-from fixtures.params import USER_NAME, DEFAULT_PASSWORD, DEFAULT_EMAIL
+from fixtures.params import USER_NAME, DEFAULT_PASSWORD, DEFAULT_EMAIL, DOMAIN
 
 
 class SignUpPage(BaseTestCase):
+    def signup(self):
+        self.driver.delete_all_cookies()
+        self.driver.get(DOMAIN + "/signup")
+        self.set_username()
+        self.set_email()
+        self.set_password()
+        self.set_confirm_password()
+        self.sign_up()
+
     def set_username(self, username=USER_NAME):
         self.driver.find_element_by_id("name").send_keys(username)
 

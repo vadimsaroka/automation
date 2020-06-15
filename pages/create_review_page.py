@@ -1,9 +1,11 @@
 from selenium.webdriver.support import expected_conditions as ec
 from fixtures.base import BaseTestCase
-from fixtures.params import PRODUCT_NAME, PRICE, ORDER_NUMBER, GROUP_NAME, DATE
+from fixtures.params import PRODUCT_NAME, PRICE, ORDER_NUMBER, GROUP_NAME, DATE, DOMAIN
+from pathlib import Path
+
 
 locators = {
-    "image": "/home/vadim/PycharmProjects/selenium/files/image.JPG",
+    "image": str(Path(__file__).parent.parent) + "/files/image.JPG",
     "product_name": 'name',
     "product_price": 'price',
     "order_number": 'orderNumber',
@@ -14,6 +16,16 @@ locators = {
 
 
 class CreateReview(BaseTestCase):
+    def create_review(self):
+        self.driver.get(DOMAIN + "/newreview")
+        self.upload_image()
+        self.set_product_name()
+        self.set_price()
+        self.set_order_number()
+        self.select()
+        self.set_group_name()
+        self.save()
+
     def upload_image(self):
         self.driver.find_element_by_id("photo").send_keys(locators["image"])
 
@@ -37,3 +49,7 @@ class CreateReview(BaseTestCase):
 
     def save(self):
         self.driver.find_element_by_tag_name(locators["save_btn"]).submit()
+
+    def search_product(self, name=PRODUCT_NAME):
+        self.driver.find_element_by_id("search").send_keys(name)
+        self.driver.find_element_by_xpath("//button[@class='btn btn--search']").click()

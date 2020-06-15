@@ -1,8 +1,7 @@
 from datetime import date
 from random import randint
 import os
-from selenium.webdriver import Chrome, Firefox
-from selenium.webdriver.chrome.options import Options
+from pathlib import Path
 
 DOMAIN = "https://amzreviewer.now.sh"
 
@@ -10,18 +9,14 @@ USER_NAME = "Testuser"
 DEFAULT_PASSWORD = "12345678"
 DEFAULT_EMAIL = "test@gmail.com"
 
-cwd = os.path.abspath(os.getcwd())
+cwd = Path(__file__).parent.parent
 
-#The Chrome driver setup
-options = Options()
-options.page_load_strategy = 'eager'
-CHROME_EXECUTABLE_PATH = Chrome(options=options)
+# The Chrome driver setup
+# CHROME_EXECUTABLE_PATH = Chrome(executable_path=f"{cwd}/driver/chromedriver")
 
-#The FireFox driver setup
+# The FireFox driver setup
 # FIREFOX_EXECUTABLE_PATH = os.path.join(cwd, "driver/geckodriver")\
 # FIREFOX_EXECUTABLE_PATH = Firefox()
-FIREFOX_EXECUTABLE_PATH = None
-
 
 BROWSER_TYPE = "Chrome"
 
@@ -32,7 +27,3 @@ PRICE = f"{str(randint(1, 100))}"
 ORDER_NUMBER = "111-222-333-444-555"
 GROUP_NAME = 'testgroupname'
 DATE = date.today().strftime("%m/%d/%y")
-
-
-
-

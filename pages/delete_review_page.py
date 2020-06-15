@@ -6,6 +6,7 @@ from fixtures.params import PRODUCT_NAME
 
 
 class DeleteReview(BaseTestCase):
+
     def search_product(self, name=PRODUCT_NAME):
         self.driver.find_element_by_id("search").send_keys(name)
         self.driver.find_element_by_xpath("//button[@class='btn btn--search']").click()
@@ -19,3 +20,4 @@ class DeleteReview(BaseTestCase):
     def delete_review(self):
         self.wait.until((ec.element_to_be_clickable((By.XPATH, "//button[2]")))).click()
         self.driver.switch_to.alert.accept()
+
