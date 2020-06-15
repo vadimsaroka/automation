@@ -1,7 +1,9 @@
 # automation
 
-pytest --html=report.html => generating HTML reports
+Run tests:
 
-python3 -m unittest       => run unittest scripts
+  pytest --html=report.html => generating HTML reports
 
-pytest                    => run pytest scripts
+  python3 -m unittest       => run unittest scripts
+
+  pytest                    => run pytest scripts
