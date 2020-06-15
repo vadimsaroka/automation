@@ -1,13 +1,12 @@
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
-from fixtures.params import DOMAIN, DEFAULT_EMAIL, EXPLICIT_TIMEOUT
+from fixtures.params import DOMAIN, DEFAULT_EMAIL
+from pages.delete_account_page import DeleteAccount
+from pages.login_page import LoginPage
 from pages.sing_up_page import SignUpPage
-# from tests.test_5_delete_account import DeleteAccountTest
 
 
-class SignUpTest(SignUpPage):
+class SignUpTest(SignUpPage, DeleteAccount):
     def setUp(self):
-        super(SignUpTest, self).setUp()
         self.page_url = DOMAIN + "/signup"
         self.driver.delete_all_cookies()
         self.go_to_page()
@@ -31,12 +30,14 @@ class SignUpTest(SignUpPage):
         self.set_password()
         self.set_confirm_password()
         self.sign_up()
-        WebDriverWait(self.driver, timeout=EXPLICIT_TIMEOUT).until(ec.url_to_be(DOMAIN + "/me"))
+        self.wait.until(ec.url_to_be(DOMAIN + "/me"))
         self.assertEqual(DOMAIN + "/me", self.driver.current_url)
-        # Sign up with duplicate credentials
+        # sign up with duplicate credentials
         self._sing_up_with_duplicate_val()
-        # # Cleaning up after the account was created
-        # DeleteAccountTest()
+        # clean up after successfully signed up
+        self.login = LoginPage(self.driver)
+        self.login.login()
+        self.delete_account()
 
     def test_sing_up_with_no_username(self):
         self.set_username(username="")
@@ -96,4 +97,5 @@ class SignUpTest(SignUpPage):
         self.set_confirm_password(password="")
         self.sign_up()
         self._assert_handler()
+
 

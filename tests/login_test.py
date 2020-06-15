@@ -1,21 +1,27 @@
-from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from fixtures.base import BaseTestCase
-from fixtures.params import DOMAIN, EXPLICIT_TIMEOUT
+from fixtures.params import DOMAIN
+from pages.delete_account_page import DeleteAccount
 from pages.login_page import LoginPage
+from pages.sing_up_page import SignUpPage
 
 
-class LoginTest(BaseTestCase):
+class LoginTest(SignUpPage, DeleteAccount, BaseTestCase):
     def setUp(self):
         self.page_url = DOMAIN + "/login"
         self.login = LoginPage(self.driver)
         self.go_to_page()
 
     def test_login_with_correct(self):
-        self.login.set_user_name()
-        self.login.set_password()
-        self.login.click_submit()
-        WebDriverWait(self.driver, timeout=EXPLICIT_TIMEOUT).until(ec.url_to_be(DOMAIN + "/me"))
+        # create a user in order to be able to login
+        self.signup()
+        self.wait.until(ec.url_to_be(DOMAIN + "/me"))
+        # login with correct credentials
+        self.go_to_page()
+        self.login.login()
+        self.wait.until(ec.url_to_be(DOMAIN + "/me"))
+        # clean up after successfully login
+        self.delete_account()
 
     def test_login_nonexistent_user(self):
         self.login.set_user_name(username="nonexistentvalue")

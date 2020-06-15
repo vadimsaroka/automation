@@ -1,22 +1,27 @@
-from selenium.webdriver.support.ui import Select
-from selenium.webdriver.support.wait import WebDriverWait
+from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 from selenium.webdriver.support import expected_conditions as ec
-import datetime
 from time import sleep
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.wait import WebDriverWait
+from pages.delete_account_page import DeleteAccount
 from pages.login_page import LoginPage
 from pages.create_review_page import CreateReview
 from fixtures.params import PRODUCT_NAME, DOMAIN, EXPLICIT_TIMEOUT
+from pages.sing_up_page import SignUpPage
 
 
-class CreateReviewTest(CreateReview):
+class CreateReviewTest(SignUpPage, DeleteAccount, CreateReview):
     def setUp(self):
-        self.login = LoginPage(self.driver)
+        # create an account in order to be able to login
+        self.signup()
+        self.wait.until(ec.url_to_be(DOMAIN + "/me"))
+        # self.login = LoginPage(self.driver)
         self.page_url = DOMAIN + "/newreview"
-        self.login.login()
+        # self.login.login()
 
     def tearDown(self):
-        self.login.logout()
+        # clean up after test
+        self.delete_account()
 
     def test_create_review(self):
         try:
@@ -28,9 +33,12 @@ class CreateReviewTest(CreateReview):
             self.select()
             self.set_group_name()
             self.save()
+            self.wait.until(ec.url_to_be(DOMAIN + "/reviews"))
+            self.search_product()
             self.wait.until((ec.element_to_be_clickable((By.XPATH, f"//*[text()[contains(.,'{PRODUCT_NAME}')]]"))))
-        except ValueError:
-            self.driver.save_screenshot(f"{__name__}_{datetime.datetime.now()}.png")
+        except TimeoutException:
+            self.save_screenshot()
+            raise
 
     def test_create_review_with_no_product_name(self):
         try:
@@ -45,8 +53,12 @@ class CreateReviewTest(CreateReview):
             sleep(3)
             self.alert_handling("Invalid input data. A review must have a name")
             self.wait.until(ec.url_to_be(self.page_url))
-        except ValueError:
-            self.driver.save_screenshot(f"{__name__}_{datetime.datetime.now()}.png")
+        except NoAlertPresentException:
+            self.save_screenshot()
+            raise
+        except TimeoutException:
+            self.save_screenshot()
+            raise
 
     def test_create_review_with_no_price(self):
         try:
@@ -61,5 +73,10 @@ class CreateReviewTest(CreateReview):
             sleep(3)
             self.alert_handling("Invalid price: null.")
             WebDriverWait(self.driver, timeout=EXPLICIT_TIMEOUT).until(ec.url_to_be(self.page_url))
-        except ValueError:
-            self.driver.save_screenshot(f"{__name__}_{datetime.datetime.now()}.png")
+        except NoAlertPresentException:
+            self.save_screenshot()
+            raise
+        except TimeoutException:
+            self.save_screenshot()
+            raise
+
