@@ -1,5 +1,7 @@
 # automation
 
+pip install -r requirements.txt => install all necessary requirements
+
 Run tests:
 
   pytest --html=report.html => generating HTML reports
